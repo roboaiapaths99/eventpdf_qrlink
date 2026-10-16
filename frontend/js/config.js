@@ -30,19 +30,13 @@ function getApiBaseUrl() {
     return savedUrl.trim().replace(/\/+$/, '');
   }
 
-  // 2. If running on localhost or 127.0.0.1
+  // 3. If running locally
   const hostname = window.location.hostname;
   if (hostname === 'localhost' || hostname === '127.0.0.1') {
-    // If running frontend on a separate port (like 3000, 5500), connect to backend port 5000
-    return `${window.location.protocol}//${hostname}:5000`;
+    return `${window.location.protocol}//${hostname}:5050`;
   }
 
-  // 3. If deployed on Vercel or VPS with relative API (e.g. reverse proxy / backend serving frontend)
-  // If CONFIG.VPS_BACKEND_URL is set to something other than localhost, use it:
-  if (CONFIG.VPS_BACKEND_URL && !CONFIG.VPS_BACKEND_URL.includes('localhost')) {
-    return CONFIG.VPS_BACKEND_URL.replace(/\/+$/, '');
-  }
-
-  // Default to relative root (works when backend serves frontend or on custom domain)
-  return window.location.origin;
+  // 4. In production on Vercel: Use relative path (avoids Mixed Content issues)
+  // Vercel reverse proxy forwards all /api/* requests directly to your VPS backend
+  return '';
 }
