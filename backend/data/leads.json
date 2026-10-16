@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "id": "TECH-MVATCO2A-EF7Z",
+    "name": "Test Student",
+    "email": "test@technula.com",
+    "mobile": "9990911093",
+    "className": "Class 10th",
+    "school": "Technula Academy",
+    "registeredAt": "2026-10-16T10:17:04.210Z",
+    "downloaded": false,
+    "downloadCount": 0,
+    "clientIp": "127.0.0.1"
+  }
+]

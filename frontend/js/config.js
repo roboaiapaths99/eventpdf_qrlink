@@ -16,7 +16,18 @@ const CONFIG = {
 
 // Dynamically determine the best API base URL
 function getApiBaseUrl() {
-  // 1. Check if user configured a custom API URL in localStorage (e.g. from Admin settings)
+  // 1. Check if passed via URL parameter (?api=http://YOUR_VPS_IP:5000)
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const queryApi = params.get('api');
+    if (queryApi && queryApi.trim()) {
+      const clean = queryApi.trim().replace(/\/+$/, '');
+      localStorage.setItem('technula_custom_api_url', clean);
+      return clean;
+    }
+  } catch (e) {}
+
+  // 2. Check if user configured a custom API URL in localStorage (e.g. from Admin settings)
   const savedUrl = localStorage.getItem('technula_custom_api_url');
   if (savedUrl && savedUrl.trim()) {
     return savedUrl.trim().replace(/\/+$/, '');

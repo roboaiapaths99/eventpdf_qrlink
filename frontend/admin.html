@@ -79,12 +79,12 @@
   <!-- 1. LOGIN SCREEN (Visible when not authenticated) -->
   <section id="loginSection" class="container" style="display: none; padding-top: 60px;">
     <div class="brand-header">
-      <div class="brand-badge">
+      <img src="assets/technula_logo.png" alt="Technula Logo" class="brand-logo-img" style="max-width: 220px;">
+      <div class="brand-badge" style="margin-top: 6px;">
         <span>🔒</span>
-        <span>Authorized Personnel Only</span>
+        <span>Event Admin Portal</span>
       </div>
-      <h1 class="brand-logo-text">TECH<span>NULA</span> ADMIN</h1>
-      <p class="brand-subtitle">Enter your admin credentials to access event registrations.</p>
+      <p class="brand-subtitle">Enter your admin credentials to access student event registrations.</p>
     </div>
 
     <div class="card" style="max-width: 440px; margin: 0 auto;">
@@ -154,13 +154,14 @@
     <!-- Top Nav -->
     <header class="admin-navbar">
       <div style="display: flex; align-items: center; gap: 12px;">
-        <span style="font-size: 1.4rem;">🤖</span>
-        <span style="font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em;">
-          TECH<span style="color: var(--accent);">NULA</span> <span style="font-weight: 500; font-size: 0.9rem; color: var(--text-muted);">| Event Admin</span>
+        <img src="assets/technula_logo.png" alt="Technula Logo" style="height: 32px; width: auto; object-fit: contain;">
+        <span style="font-weight: 700; font-size: 0.95rem; color: var(--text-muted); border-left: 1.5px solid var(--border); padding-left: 10px;">
+          Event Admin
         </span>
       </div>
 
       <div style="display: flex; align-items: center; gap: 14px;">
+        <span id="backendStatusBadge" class="badge badge-muted" style="font-size: 0.8rem; cursor: pointer;" title="Click to view/change backend URL">📡 API: Localhost</span>
         <span id="adminEmailBadge" class="badge badge-muted" style="font-size: 0.82rem;">technula@gmail.com</span>
         <button id="logoutBtn" class="btn btn-outline btn-sm">
           <span>🚪</span>

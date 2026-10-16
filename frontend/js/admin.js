@@ -134,6 +134,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const token = sessionStorage.getItem('technula_admin_token');
     const apiBase = getApiBaseUrl();
+    const statusBadge = document.getElementById('backendStatusBadge');
+    if (statusBadge) {
+      statusBadge.textContent = `📡 API: ${apiBase}`;
+      statusBadge.onclick = () => {
+        const newUrl = prompt('Enter your Hostinger VPS Backend URL (e.g. http://YOUR_VPS_IP:5000):', apiBase);
+        if (newUrl && newUrl.trim()) {
+          localStorage.setItem('technula_custom_api_url', newUrl.trim());
+          location.reload();
+        }
+      };
+    }
 
     try {
       const response = await fetch(`${apiBase}/api/admin/leads`, {
