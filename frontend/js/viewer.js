@@ -1,8 +1,15 @@
-// Technula PDF Viewer & Download Handler
+// Technula PDF Viewer & Download Handler - Strictly Protected
 document.addEventListener('DOMContentLoaded', () => {
   const urlParams = new URLSearchParams(window.location.search);
-  const leadId = urlParams.get('leadId') || localStorage.getItem('technula_lead_id') || '';
+  const leadId = (urlParams.get('leadId') || localStorage.getItem('technula_lead_id') || '').trim();
   const studentName = localStorage.getItem('technula_student_name');
+
+  // 🔒 STRICT SECURITY GATE: Block access if student has NOT registered
+  if (!leadId) {
+    alert('Access Denied: You must fill out the registration form with your details to access this robot manual.');
+    window.location.replace('index.html');
+    return;
+  }
 
   const welcomeText = document.getElementById('welcomeText');
   const downloadPdfBtn = document.getElementById('downloadPdfBtn');
@@ -18,15 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const apiBase = getApiBaseUrl();
   
-  // PDF source URLs
-  let viewUrl = `${apiBase}/api/pdf/manual?leadId=${encodeURIComponent(leadId)}`;
-  let downloadUrl = `${apiBase}/api/pdf/manual?leadId=${encodeURIComponent(leadId)}&download=1`;
-
-  // Fallback to static relative file if needed
-  if (CONFIG.FALLBACK_PDF_PATH && !apiBase.startsWith('http')) {
-    viewUrl = CONFIG.FALLBACK_PDF_PATH;
-    downloadUrl = CONFIG.FALLBACK_PDF_PATH;
-  }
+  // PDF source URLs strictly require leadId parameter
+  const viewUrl = `${apiBase}/api/pdf/manual?leadId=${encodeURIComponent(leadId)}`;
+  const downloadUrl = `${apiBase}/api/pdf/manual?leadId=${encodeURIComponent(leadId)}&download=1`;
 
   // Set download button targets
   downloadPdfBtn.href = downloadUrl;

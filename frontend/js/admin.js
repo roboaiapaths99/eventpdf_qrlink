@@ -96,17 +96,11 @@ document.addEventListener('DOMContentLoaded', () => {
         sessionStorage.setItem('technula_admin_email', data.admin.email);
         showDashboard();
       } else {
-        showLoginAlert(data.message || 'Invalid admin credentials.');
+        showLoginAlert(data.message || 'Invalid admin email or password.');
       }
     } catch (err) {
-      // Local fallback verification in case API is running separate without proxy
-      if (email.toLowerCase() === 'technula@gmail.com' && password === 'Technula#191219') {
-        sessionStorage.setItem('technula_admin_token', 'local-bypass-token');
-        sessionStorage.setItem('technula_admin_email', email);
-        showDashboard();
-      } else {
-        showLoginAlert('Unable to reach server. Please check your network or credentials.');
-      }
+      console.error('Admin login error:', err);
+      showLoginAlert('Unable to connect to backend server. Please check your backend connection.');
     } finally {
       loginBtn.disabled = false;
       loginSpinner.style.display = 'none';

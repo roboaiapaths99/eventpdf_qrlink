@@ -183,27 +183,42 @@ app.post('/api/register', (req, res) => {
   }
 });
 
-// 2. Serve PDF Manual (Inline View or Download)
+// 2. Serve PDF Manual - STRICTLY PROTECTED (Valid Registration Required)
 app.get('/api/pdf/manual', (req, res) => {
   if (!fs.existsSync(PDF_PATH)) {
     return res.status(404).json({ success: false, message: 'PDF manual file not found on server.' });
   }
 
-  // Update lead download status if leadId is passed
   const { leadId, download } = req.query;
-  if (leadId) {
-    try {
-      const leads = getLeads();
-      const lead = leads.find(l => l.id === leadId);
-      if (lead) {
-        lead.downloaded = true;
-        lead.downloadCount = (lead.downloadCount || 0) + 1;
-        lead.lastDownloadedAt = new Date().toISOString();
-        saveLeads(leads);
-      }
-    } catch (e) {
-      console.error('Failed to update download stat:', e);
-    }
+
+  // 🔒 STRICT CHECK: Must provide a valid registration leadId
+  if (!leadId || typeof leadId !== 'string' || !leadId.trim()) {
+    return res.status(403).json({
+      success: false,
+      message: 'Access Denied: You must fill out the registration form with your details to access this robot manual.'
+    });
+  }
+
+  const cleanLeadId = leadId.trim();
+  const leads = getLeads();
+  const lead = leads.find(l => l.id === cleanLeadId);
+
+  // If lead is not found in database, deny access completely
+  if (!lead) {
+    return res.status(403).json({
+      success: false,
+      message: 'Invalid Registration: No matching student record found. Please register on the event page.'
+    });
+  }
+
+  // Update lead download status
+  try {
+    lead.downloaded = true;
+    lead.downloadCount = (lead.downloadCount || 0) + 1;
+    lead.lastDownloadedAt = new Date().toISOString();
+    saveLeads(leads);
+  } catch (e) {
+    console.error('Failed to update download stat:', e);
   }
 
   const filename = 'OBSTACLE_AVOINDING_AND_FOLLOWING.pdf';
@@ -215,6 +230,10 @@ app.get('/api/pdf/manual', (req, res) => {
   }
 
   const stream = fs.createReadStream(PDF_PATH);
+  stream.on('error', (err) => {
+    console.error('PDF Stream Error:', err);
+    if (!res.headersSent) res.status(500).send('Error streaming PDF file.');
+  });
   stream.pipe(res);
 });
 

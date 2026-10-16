@@ -90,17 +90,9 @@ document.addEventListener('DOMContentLoaded', () => {
         setLoading(false);
       }
     } catch (err) {
-      console.warn('Backend connection notice, falling back to local session:', err);
-      // Fallback: If backend is being set up or temporarily offline, allow student to view PDF without blocking them
-      const fallbackId = 'TECH-OFFLINE-' + Date.now().toString(36).toUpperCase();
-      localStorage.setItem('technula_lead_id', fallbackId);
-      localStorage.setItem('technula_student_name', name);
-      localStorage.setItem('technula_pdf_url', CONFIG.FALLBACK_PDF_PATH);
-
-      showAlert('Registration saved! Opening manual...', 'success');
-      setTimeout(() => {
-        window.location.href = `viewer.html?leadId=${fallbackId}`;
-      }, 1000);
+      console.error('Registration submission error:', err);
+      showAlert('Unable to submit registration to event database. Please check your internet connection and try again.');
+      setLoading(false);
     }
   });
 });

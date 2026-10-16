@@ -5,9 +5,6 @@ const CONFIG = {
   // When running locally, it automatically connects to http://localhost:5000
   VPS_BACKEND_URL: 'http://88.222.242.111:5050',
 
-  // Fallback static PDF path (hosted on Vercel or local frontend)
-  FALLBACK_PDF_PATH: './OBSTACLE_AVOINDING_AND_FOLLOWING.pdf',
-
   // Contact Information
   SUPPORT_EMAIL: 'info@technula.com',
   SUPPORT_PHONE: '9990911093',
