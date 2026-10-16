@@ -1,5 +1,5 @@
 {
-  "name": "technula-backend",
+  "name": "eventkitqr-backend",
   "version": "1.0.0",
   "description": "Technula Robotics Event Registration & PDF Delivery API (Hostinger VPS Ready)",
   "main": "server.js",
