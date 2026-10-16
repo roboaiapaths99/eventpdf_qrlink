@@ -86,9 +86,9 @@ url-pdf/
 - **Live Admin Portal:** [https://eventpdfqrlink-frontend.vercel.app/admin.html](https://eventpdfqrlink-frontend.vercel.app/admin.html)
 - **Live Printable Stickers:** [https://eventpdfqrlink-frontend.vercel.app/sticker.html](https://eventpdfqrlink-frontend.vercel.app/sticker.html)
 
-### 2. Backend on Hostinger VPS (Folder: `eventkitqr backend`)
-Follow [`backend/README_BACKEND.md`](file:///c:/Users/roboa/OneDrive/Desktop/url-pdf/backend/README_BACKEND.md).
-1. SSH into VPS and navigate to or create `eventkitqr backend`.
-2. Run `npm install --production`.
-3. Start process with `pm2 start ecosystem.config.js`.
-4. Persists all student registrations safely into `data/leads.json`.
+### 2. Backend on Hostinger VPS (LIVE)
+- **VPS Public IP:** `88.222.242.111`
+- **Backend Port:** `5050`
+- **Live Health Endpoint:** `http://88.222.242.111:5050/health`
+- **Data File:** `/var/www/eventkitqr/backend/backend/data/leads.json`
+- **Process Manager:** PM2 (`pm2 status technula-api`)

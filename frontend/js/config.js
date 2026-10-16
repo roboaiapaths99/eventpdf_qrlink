@@ -3,7 +3,7 @@ const CONFIG = {
   // If hosted on Vercel, put your Hostinger VPS backend URL here:
   // Example: 'https://api.technula.com' or 'http://123.45.67.89:5000'
   // When running locally, it automatically connects to http://localhost:5000
-  VPS_BACKEND_URL: 'http://localhost:5000',
+  VPS_BACKEND_URL: 'http://88.222.242.111:5050',
 
   // Fallback static PDF path (hosted on Vercel or local frontend)
   FALLBACK_PDF_PATH: './OBSTACLE_AVOINDING_AND_FOLLOWING.pdf',

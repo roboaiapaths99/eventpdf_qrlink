@@ -13,6 +13,7 @@
     }
   ],
   "rewrites": [
+    { "source": "/api/:path*", "destination": "http://88.222.242.111:5050/api/:path*" },
     { "source": "/viewer", "destination": "/viewer.html" },
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/sticker", "destination": "/sticker.html" }
