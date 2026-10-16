@@ -9,7 +9,7 @@ module.exports = {
       max_memory_restart: '300M',
       env: {
         NODE_ENV: 'production',
-        PORT: 5000,
+        PORT: 5050,
         ADMIN_EMAIL: 'technula@gmail.com',
         ADMIN_PASSWORD: 'Technula#191219'
       }
