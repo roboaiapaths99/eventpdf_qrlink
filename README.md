@@ -80,10 +80,15 @@ url-pdf/
 
 ## 🚀 Production Deployment
 
-### 1. Frontend on Vercel
-Follow [`frontend/README_VERCEL.md`](file:///c:/Users/roboa/OneDrive/Desktop/url-pdf/frontend/README_VERCEL.md).
-You can deploy the `frontend` folder directly to Vercel via CLI or GitHub integration.
+### 1. Frontend on Vercel (LIVE)
+- **Live Student Registration & Kit Link:** [https://eventpdfqrlink-frontend.vercel.app/](https://eventpdfqrlink-frontend.vercel.app/)
+- **Live PDF Viewer:** [https://eventpdfqrlink-frontend.vercel.app/viewer.html](https://eventpdfqrlink-frontend.vercel.app/viewer.html)
+- **Live Admin Portal:** [https://eventpdfqrlink-frontend.vercel.app/admin.html](https://eventpdfqrlink-frontend.vercel.app/admin.html)
+- **Live Printable Stickers:** [https://eventpdfqrlink-frontend.vercel.app/sticker.html](https://eventpdfqrlink-frontend.vercel.app/sticker.html)
 
-### 2. Backend on Hostinger VPS
+### 2. Backend on Hostinger VPS (Folder: `eventkitqr backend`)
 Follow [`backend/README_BACKEND.md`](file:///c:/Users/roboa/OneDrive/Desktop/url-pdf/backend/README_BACKEND.md).
-Runs effortlessly with `pm2 start ecosystem.config.js` and persists all leads to `data/leads.json`.
+1. SSH into VPS and navigate to or create `eventkitqr backend`.
+2. Run `npm install --production`.
+3. Start process with `pm2 start ecosystem.config.js`.
+4. Persists all student registrations safely into `data/leads.json`.

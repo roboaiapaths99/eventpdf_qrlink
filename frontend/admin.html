@@ -125,6 +125,22 @@
           </div>
         </div>
 
+        <div class="form-group">
+          <label class="form-label" for="backendUrlInput">
+            VPS Backend API URL <span style="font-weight: 400; font-size: 0.8rem; color: var(--text-muted);">(Optional)</span>
+          </label>
+          <div class="input-wrapper">
+            <span class="input-icon">📡</span>
+            <input 
+              type="text" 
+              id="backendUrlInput" 
+              class="form-input" 
+              placeholder="e.g. http://YOUR_VPS_IP:5000"
+            >
+          </div>
+          <div class="form-hint">Points your Vercel frontend to your Hostinger VPS backend.</div>
+        </div>
+
         <button type="submit" id="loginBtn" class="btn btn-primary btn-block">
           <span id="loginBtnText">Sign In to Dashboard →</span>
           <span id="loginSpinner" class="spinner" style="display: none;"></span>

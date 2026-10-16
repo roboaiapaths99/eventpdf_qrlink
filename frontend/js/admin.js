@@ -58,6 +58,12 @@ document.addEventListener('DOMContentLoaded', () => {
     loginAlertBox.textContent = msg;
   }
 
+  // Pre-fill backend URL input
+  const backendUrlInput = document.getElementById('backendUrlInput');
+  if (backendUrlInput) {
+    backendUrlInput.value = localStorage.getItem('technula_custom_api_url') || '';
+  }
+
   // Handle Login
   adminLoginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -65,6 +71,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const email = document.getElementById('adminEmail').value.trim();
     const password = document.getElementById('adminPassword').value;
+
+    if (backendUrlInput && backendUrlInput.value.trim()) {
+      localStorage.setItem('technula_custom_api_url', backendUrlInput.value.trim());
+    }
 
     loginBtn.disabled = true;
     loginSpinner.style.display = 'inline-block';

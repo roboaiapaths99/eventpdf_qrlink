@@ -25,6 +25,9 @@ async function generate() {
   console.log(terminalString);
 
   // 2. Generate High-Res PNG (800x800 for crystal-clear stickers)
+  try {
+    if (fs.existsSync(rootPngPath)) fs.unlinkSync(rootPngPath);
+  } catch (e) {}
   await QRCode.toFile(rootPngPath, targetUrl, {
     width: 800,
     margin: 2,
@@ -34,6 +37,9 @@ async function generate() {
     },
     errorCorrectionLevel: 'H'
   });
+  try {
+    if (fs.existsSync(assetPngPath)) fs.unlinkSync(assetPngPath);
+  } catch (e) {}
   fs.copyFileSync(rootPngPath, assetPngPath);
 
   // 3. Generate Vector SVG

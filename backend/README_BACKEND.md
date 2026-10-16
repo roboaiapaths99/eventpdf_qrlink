@@ -19,18 +19,19 @@ sudo npm install -g pm2
 ```
 
 ### 3. Upload or Clone the Backend
-You can upload the `backend/` folder and the PDF `OBSTACLE AVOINDING AND FOLLOWING.pdf` into `/var/www/technula-backend`:
+You can upload the `backend/` files and the PDF into a folder named `eventkitqr backend` (or `/var/www/eventkitqr-backend`):
 ```bash
-mkdir -p /var/www/technula-backend
-cd /var/www/technula-backend
+# Example if cloning repo directly:
+git clone https://github.com/roboaiapaths99/eventpdf_qrlink.git "eventkitqr backend"
+cd "eventkitqr backend/backend"
 ```
-Ensure your directory looks like:
+Or if uploading via Hostinger File Manager into folder `eventkitqr backend`:
 ```
-/var/www/technula-backend/
+eventkitqr backend/
 ├── server.js
 ├── package.json
 ├── ecosystem.config.js
-├── OBSTACLE AVOINDING AND FOLLOWING.pdf
+├── OBSTACLE_AVOINDING_AND_FOLLOWING.pdf
 └── data/
 ```
 
