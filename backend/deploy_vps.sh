@@ -30,9 +30,12 @@ fi
 echo "📦 3. Installing production dependencies..."
 npm install --production
 
-# 5. Restart PM2 process
+# 5. Clean up old PM2 processes & free port 5050
 echo "🔄 4. Starting PM2 process (technula-api)..."
+pm2 delete technula-backend 2>/dev/null || true
 pm2 delete technula-api 2>/dev/null || true
+command -v fuser >/dev/null 2>&1 && fuser -k 5050/tcp 2>/dev/null || true
+sleep 1
 pm2 start ecosystem.config.js
 pm2 save
 
