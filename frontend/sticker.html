@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technula | Printable Kit QR Stickers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 24px;
+    }
+    .no-print-toolbar {
+      max-width: 900px;
+      margin: 0 auto 24px;
+      background: #ffffff;
+      padding: 16px 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .input-box {
+      padding: 10px 14px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      min-width: 320px;
+      font-family: inherit;
+    }
+    .btn {
+      padding: 10px 20px;
+      background: #1d4ed8;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn:hover {
+      background: #1e40af;
+    }
+
+    /* Sticker Grid */
+    .sheet {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .sticker-card {
+      background: #ffffff;
+      border: 2px dashed #94a3b8;
+      border-radius: 14px;
+      padding: 18px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      page-break-inside: avoid;
+    }
+
+    .sticker-header {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .sticker-header span {
+      color: #ea580c;
+    }
+    .sticker-sub {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #2563eb;
+      margin-top: 2px;
+      margin-bottom: 10px;
+    }
+
+    .qr-target {
+      width: 140px;
+      height: 140px;
+      margin: 8px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sticker-callout {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-top: 6px;
+    }
+    .sticker-footer {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+        padding: 0;
+      }
+      .no-print-toolbar {
+        display: none !important;
+      }
+      .sheet {
+        gap: 12px;
+      }
+      .sticker-card {
+        border: 1.5px dashed #64748b;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Controls Toolbar -->
+  <div class="no-print-toolbar">
+    <div>
+      <h2 style="font-size: 1.2rem; font-weight: 800;">🏷️ Technula Kit Sticker Sheet</h2>
+      <p style="font-size: 0.85rem; color: #64748b;">Print stickers to paste on your robotics kits.</p>
+    </div>
+    <div style="display: flex; gap: 10px; align-items: center;">
+      <input type="text" id="targetUrlInput" class="input-box" value="https://eventpdf-qrlink.vercel.app">
+      <button class="btn" onclick="window.print()">
+        <span>🖨️</span>
+        <span>Print Stickers</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Printable 6-Sticker Sheet -->
+  <div class="sheet" id="stickerSheet">
+    <!-- Generated dynamically -->
+  </div>
+
+  <script>
+    const input = document.getElementById('targetUrlInput');
+    const sheet = document.getElementById('stickerSheet');
+
+    function renderStickers() {
+      const url = input.value.trim() || 'https://eventpdf-qrlink.vercel.app';
+      sheet.innerHTML = '';
+
+      for (let i = 0; i < 6; i++) {
+        const card = document.createElement('div');
+        card.className = 'sticker-card';
+        card.innerHTML = `
+          <div class="sticker-header">TECH<span>NULA</span> ROBOTICS</div>
+          <div class="sticker-sub">Obstacle Avoiding & Following Robot Kit</div>
+          <div class="qr-target" id="qr-${i}"></div>
+          <div class="sticker-callout">📱 SCAN TO UNLOCK MANUAL & GUIDE</div>
+          <div class="sticker-footer">Queries: info@technula.com | 9990911093</div>
+        `;
+        sheet.appendChild(card);
+
+        new QRCode(document.getElementById(`qr-${i}`), {
+          text: url,
+          width: 140,
+          height: 140,
+          colorDark: '#0f172a',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      }
+    }
+
+    input.addEventListener('input', renderStickers);
+    renderStickers();
+  </script>
+</body>
+</html>

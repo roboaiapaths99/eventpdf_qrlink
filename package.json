@@ -1,0 +1,12 @@
+{
+  "name": "technula-robotics-event-system",
+  "version": "1.0.0",
+  "description": "Technula Event QR Registration, PDF Manual Delivery, and Admin Leads Management System",
+  "scripts": {
+    "postinstall": "cd backend && npm install",
+    "start": "node backend/server.js",
+    "dev": "node --watch backend/server.js"
+  },
+  "author": "Technula",
+  "license": "ISC"
+}

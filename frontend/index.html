@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technula | Robotics Kit Manual & Registration</title>
+  <meta name="description" content="Register your details to access the Technula Obstacle Avoiding & Following Robot manual and build guide.">
+  
+  <!-- Modern Clean Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="bg-mesh"></div>
+
+  <main class="container">
+    <!-- Header Branding -->
+    <header class="brand-header">
+      <div class="brand-badge">
+        <span>🤖</span>
+        <span>Technula Robotics & STEM Kit</span>
+      </div>
+      <h1 class="brand-logo-text">
+        TECH<span>NULA</span>
+      </h1>
+      <p class="brand-subtitle">
+        Obstacle Avoiding & Following Robot Kit Manual Access
+      </p>
+    </header>
+
+    <!-- Registration Card -->
+    <section class="card" id="registrationCard">
+      <h2 class="card-title">
+        <span>📋</span>
+        <span>Student Registration</span>
+      </h2>
+      <p class="card-desc">
+        Please enter your details to instantly view and download your robot building manual.
+      </p>
+
+      <!-- Alert Message Box -->
+      <div id="alertBox" class="alert" style="display: none;"></div>
+
+      <form id="registerForm" novalidate>
+        <!-- 1. Full Name -->
+        <div class="form-group">
+          <label class="form-label" for="studentName">
+            Student Full Name <span class="required">*</span>
+          </label>
+          <div class="input-wrapper">
+            <span class="input-icon">👤</span>
+            <input 
+              type="text" 
+              id="studentName" 
+              name="name" 
+              class="form-input" 
+              placeholder="e.g. Aryan Sharma" 
+              required
+              autocomplete="name"
+            >
+          </div>
+        </div>
+
+        <!-- 2. Email Address -->
+        <div class="form-group">
+          <label class="form-label" for="studentEmail">
+            Email Address <span class="required">*</span>
+          </label>
+          <div class="input-wrapper">
+            <span class="input-icon">✉️</span>
+            <input 
+              type="email" 
+              id="studentEmail" 
+              name="email" 
+              class="form-input" 
+              placeholder="e.g. aryan@gmail.com" 
+              required
+              autocomplete="email"
+            >
+          </div>
+        </div>
+
+        <!-- 3. Mobile Number -->
+        <div class="form-group">
+          <label class="form-label" for="studentMobile">
+            Mobile Number (10 Digits) <span class="required">*</span>
+          </label>
+          <div class="input-wrapper">
+            <span class="input-icon">📱</span>
+            <input 
+              type="tel" 
+              id="studentMobile" 
+              name="mobile" 
+              class="form-input" 
+              placeholder="e.g. 9876543210" 
+              maxlength="10"
+              required
+              autocomplete="tel"
+            >
+          </div>
+          <div class="form-hint">Enter your 10-digit WhatsApp/calling number.</div>
+        </div>
+
+        <!-- 4. Class / Grade -->
+        <div class="form-group">
+          <label class="form-label" for="studentClass">
+            Class / Grade <span class="required">*</span>
+          </label>
+          <div class="input-wrapper">
+            <span class="input-icon">🎓</span>
+            <select id="studentClass" name="className" class="form-select" required>
+              <option value="" disabled selected>Select your Class / Standard</option>
+              <option value="Class 5th or below">Class 5th or below</option>
+              <option value="Class 6th">Class 6th</option>
+              <option value="Class 7th">Class 7th</option>
+              <option value="Class 8th">Class 8th</option>
+              <option value="Class 9th">Class 9th</option>
+              <option value="Class 10th">Class 10th</option>
+              <option value="Class 11th">Class 11th</option>
+              <option value="Class 12th">Class 12th</option>
+              <option value="College / Polytechnic / University">College / Polytechnic / University</option>
+              <option value="Teacher / Mentor">Teacher / Mentor</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 5. School / Institute Name -->
+        <div class="form-group">
+          <label class="form-label" for="studentSchool">
+            School / College / Institute Name <span class="required">*</span>
+          </label>
+          <div class="input-wrapper">
+            <span class="input-icon">🏫</span>
+            <input 
+              type="text" 
+              id="studentSchool" 
+              name="school" 
+              class="form-input" 
+              placeholder="e.g. Delhi Public School" 
+              required
+            >
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" id="submitBtn" class="btn btn-primary btn-block">
+          <span id="btnText">Unlock Robot Manual & Guide 🚀</span>
+          <span id="btnSpinner" class="spinner" style="display: none;"></span>
+        </button>
+      </form>
+
+      <!-- Prominent Queries & Contact Notice Card -->
+      <div class="contact-notice-card">
+        <div class="contact-notice-title">
+          <span>💡</span>
+          <span>Have Questions or Need Help?</span>
+        </div>
+        <p class="contact-notice-text">
+          For more queries contact <strong>info@technula.com</strong> and mobile number <strong>9990911093</strong>
+        </p>
+        <div class="contact-notice-links">
+          <a href="mailto:info@technula.com" class="contact-link-pill">
+            <span>✉️</span>
+            <span>info@technula.com</span>
+          </a>
+          <a href="tel:9990911093" class="contact-link-pill">
+            <span>📞</span>
+            <span>9990911093</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>© 2026 Technula Innovation & Robotics Education. All rights reserved.</p>
+      <p style="margin-top: 6px;">
+        <a href="admin.html" style="color: var(--text-light); text-decoration: none; font-size: 0.8rem;">Admin Login</a>
+      </p>
+    </footer>
+  </main>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technula Admin | Leads & Event Dashboard</title>
+  <meta name="description" content="Technula Robotics Admin Portal to view student leads, export CSV, and generate kit QR codes.">
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- QR Code Generator Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Admin specific tweaks */
+    .admin-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .action-icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .action-icon-btn:hover {
+      background: var(--bg-muted);
+      border-color: var(--primary);
+    }
+    .action-delete-btn:hover {
+      background: var(--danger-light);
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+    .qr-sticker-preview {
+      background: #ffffff;
+      border: 2px dashed #94a3b8;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      margin: 16px 0;
+    }
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #printableStickerArea, #printableStickerArea * {
+        visibility: visible;
+      }
+      #printableStickerArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-mesh"></div>
+
+  <!-- 1. LOGIN SCREEN (Visible when not authenticated) -->
+  <section id="loginSection" class="container" style="display: none; padding-top: 60px;">
+    <div class="brand-header">
+      <div class="brand-badge">
+        <span>🔒</span>
+        <span>Authorized Personnel Only</span>
+      </div>
+      <h1 class="brand-logo-text">TECH<span>NULA</span> ADMIN</h1>
+      <p class="brand-subtitle">Enter your admin credentials to access event registrations.</p>
+    </div>
+
+    <div class="card" style="max-width: 440px; margin: 0 auto;">
+      <h2 class="card-title">
+        <span>🔑</span>
+        <span>Admin Sign In</span>
+      </h2>
+      <p class="card-desc">Event leads management dashboard</p>
+
+      <div id="loginAlertBox" class="alert" style="display: none;"></div>
+
+      <form id="adminLoginForm">
+        <div class="form-group">
+          <label class="form-label" for="adminEmail">Admin Email</label>
+          <div class="input-wrapper">
+            <span class="input-icon">✉️</span>
+            <input 
+              type="email" 
+              id="adminEmail" 
+              class="form-input" 
+              value="technula@gmail.com" 
+              required
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="adminPassword">Password</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔒</span>
+            <input 
+              type="password" 
+              id="adminPassword" 
+              class="form-input" 
+              value="Technula#191219" 
+              required
+            >
+          </div>
+        </div>
+
+        <button type="submit" id="loginBtn" class="btn btn-primary btn-block">
+          <span id="loginBtnText">Sign In to Dashboard →</span>
+          <span id="loginSpinner" class="spinner" style="display: none;"></span>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- 2. AUTHENTICATED DASHBOARD (Visible when logged in) -->
+  <div id="dashboardSection" style="display: none; flex-direction: column; min-height: 100vh;">
+    <!-- Top Nav -->
+    <header class="admin-navbar">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span style="font-size: 1.4rem;">🤖</span>
+        <span style="font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em;">
+          TECH<span style="color: var(--accent);">NULA</span> <span style="font-weight: 500; font-size: 0.9rem; color: var(--text-muted);">| Event Admin</span>
+        </span>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <span id="adminEmailBadge" class="badge badge-muted" style="font-size: 0.82rem;">technula@gmail.com</span>
+        <button id="logoutBtn" class="btn btn-outline btn-sm">
+          <span>🚪</span>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container container-wide" style="padding-top: 28px;">
+      <!-- Title & Actions -->
+      <div class="admin-header-row">
+        <div>
+          <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main);">
+            Event Registrations & Leads
+          </h1>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 4px;">
+            Real-time student submissions from robotics kit QR scans.
+          </p>
+        </div>
+
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button id="exportCsvBtn" class="btn btn-primary">
+            <span>📥</span>
+            <span>Export to CSV / Excel</span>
+          </button>
+          <button id="openQrModalBtn" class="btn btn-outline">
+            <span>🏷️</span>
+            <span>Kit QR Code</span>
+          </button>
+          <a href="sticker.html" target="_blank" class="btn btn-outline" title="Open printable sticker sheet">
+            <span>🖨️</span>
+            <span>Print Stickers</span>
+          </a>
+          <button id="refreshLeadsBtn" class="btn btn-outline" title="Refresh leads">
+            <span>🔄</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Stats Grid -->
+      <section class="admin-stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total Registrations</div>
+          <div class="stat-value" id="statTotal">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Today's Leads</div>
+          <div class="stat-value" id="statToday" style="color: var(--primary);">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Unique Schools</div>
+          <div class="stat-value" id="statSchools" style="color: var(--accent);">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">PDF Downloads</div>
+          <div class="stat-value" id="statDownloads" style="color: var(--success);">0</div>
+        </div>
+      </section>
+
+      <!-- Table Toolbar & Search -->
+      <div class="admin-toolbar">
+        <div class="input-wrapper" style="flex: 1; max-width: 420px;">
+          <span class="input-icon">🔍</span>
+          <input 
+            type="text" 
+            id="searchInput" 
+            class="form-input" 
+            placeholder="Search by student name, school, phone, class..."
+          >
+        </div>
+        <div style="font-size: 0.88rem; color: var(--text-muted);" id="leadsCountSummary">
+          Showing 0 leads
+        </div>
+      </div>
+
+      <!-- Leads Table -->
+      <section class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Date & Time</th>
+              <th>Student Name</th>
+              <th>Email</th>
+              <th>Mobile</th>
+              <th>Class / Grade</th>
+              <th>School / Institute</th>
+              <th>PDF Downloaded</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="leadsTableBody">
+            <tr>
+              <td colspan="9" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                Loading student registrations...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <!-- 3. KIT QR CODE GENERATOR MODAL -->
+  <div id="qrModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3 style="font-size: 1.25rem; font-weight: 700;">🏷️ Robotics Kit QR Generator</h3>
+        <button id="closeQrModalBtn" class="action-icon-btn" style="border: none; font-size: 1.2rem;">✕</button>
+      </div>
+
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px;">
+        Print this QR sticker and paste it on the robotics kits. When students scan it, they will open the registration form.
+      </p>
+
+      <div class="form-group">
+        <label class="form-label" for="qrTargetUrl">Target URL for Kits</label>
+        <input type="text" id="qrTargetUrl" class="form-input" style="padding-left: 14px;" placeholder="https://your-domain.vercel.app">
+        <div class="form-hint">Points directly to your event registration page.</div>
+      </div>
+
+      <!-- Printable Sticker Preview -->
+      <div id="printableStickerArea" class="qr-sticker-preview">
+        <div style="font-weight: 800; font-size: 1.1rem; color: #0f172a; margin-bottom: 2px;">
+          TECH<span style="color: #ea580c;">NULA</span> ROBOTICS
+        </div>
+        <div style="font-size: 0.82rem; font-weight: 600; color: #2563eb; margin-bottom: 12px;">
+          Obstacle Avoiding & Following Robot Kit
+        </div>
+
+        <!-- Rendered QR -->
+        <div id="qrCodeContainer" style="display: flex; justify-content: center; margin: 12px 0;"></div>
+
+        <div style="font-size: 0.82rem; font-weight: 700; color: #0f172a; margin-top: 8px;">
+          📱 SCAN TO UNLOCK BUILDING MANUAL
+        </div>
+        <div style="font-size: 0.75rem; color: #64748b; margin-top: 4px;">
+          Queries: info@technula.com | 9990911093
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-top: 18px;">
+        <button id="printStickerBtn" class="btn btn-primary" style="flex: 1;">
+          <span>🖨️</span>
+          <span>Print Sticker</span>
+        </button>
+        <button id="downloadQrImgBtn" class="btn btn-outline" style="flex: 1;">
+          <span>💾</span>
+          <span>Download QR</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
