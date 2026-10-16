@@ -4,6 +4,14 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
+// 🛡️ Crash Protection: Prevents unhandled errors from terminating the Node server
+process.on('uncaughtException', (err) => {
+  console.error('[CRASH PREVENTED] Uncaught Exception:', err.message);
+});
+process.on('unhandledRejection', (reason) => {
+  console.error('[CRASH PREVENTED] Unhandled Rejection:', reason);
+});
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
